@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DnD # 9 (PRIVATE)</title>
+  <style>
+    /* Make the background image fill the entire screen */
+    body, html {
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    .background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('dnd/assets/bg.jpg'); /* Background image */
+        background-size: contain; /* Ensures the image fits without cropping */
+        background-position: center;
+        background-repeat: no-repeat; /* Prevents tiling */
+        }
+
+
+    /* Draggable images */
+    .draggable {
+      position: absolute;
+      width: 150px; /* Adjust size as needed */
+      height: 150px;
+      cursor: move;
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+
+    /* Initial positions */
+    .draggable-1 { top: 200px; left: 100px; background-image: url('dnd/assets/char1.png'); }
+    .draggable-2 { top: 200px; left: 300px; background-image: url('dnd/assets/char2.png'); }
+    .draggable-3 { top: 400px; left: 100px; background-image: url('dnd/assets/char3.png'); }
+    .draggable-4 { top: 400px; left: 300px; background-image: url('dnd/assets/char4.png'); }
+  </style>
+</head>
+<body>
+
+  <div class="background"></div>
+
+  <!-- Fixed Images -->
+  <div class="fixed-image fixed-image-1"></div>
+  <div class="fixed-image fixed-image-2"></div>
+
+  <!-- Draggable Images -->
+  <div class="draggable draggable-1"></div>
+  <div class="draggable draggable-2"></div>
+  <div class="draggable draggable-3"></div>
+  <div class="draggable draggable-4"></div>
+
+  <script>
+    // Make elements draggable
+    const draggables = document.querySelectorAll('.draggable');
+
+    draggables.forEach(item => {
+      item.addEventListener('mousedown', function (event) {
+        let shiftX = event.clientX - item.getBoundingClientRect().left;
+        let shiftY = event.clientY - item.getBoundingClientRect().top;
+
+        function moveAt(pageX, pageY) {
+          item.style.left = pageX - shiftX + 'px';
+          item.style.top = pageY - shiftY + 'px';
+        }
+
+        function onMouseMove(event) {
+          moveAt(event.pageX, event.pageY);
+        }
+
+        document.addEventListener('mousemove', onMouseMove);
+
+        item.onmouseup = function () {
+          document.removeEventListener('mousemove', onMouseMove);
+          item.onmouseup = null;
+        };
+      });
+
+      item.ondragstart = function () {
+        return false;
+      };
+    });
+  </script>
+
+</body>
+</html>
